@@ -1,0 +1,34 @@
+Вывести ко-во заблокированных юзеров
+db.users.countDocuments(
+    {is_blocked : true}
+);
+
+Вывести страны незаблокированных юзеров
+db.users.find(
+    {is_blocked : false},
+    {country : 1, _id : 0}
+);
+
+Заблокировать юзеров из China
+db.users.updateMany(
+    {country : "China", is_blocked : false},
+    {$set : {is_blocked : true} }
+);
+
+Увеличить баланс всех незаблокированных юзеров на 100
+db.users.updateMany(
+    {is_blocked : false},
+    {$inc : {ballance : 100} }
+);
+
+Добавить несколько реакций в коллекцию reactions
+db.users.updateMany(
+    {},
+    {
+        $addToSet : {
+            reactions : {
+                $each : ["dance", "smile"]
+            }
+        }
+    }
+);
